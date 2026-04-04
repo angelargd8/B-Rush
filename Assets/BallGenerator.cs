@@ -6,16 +6,23 @@ public class BallGenerator : MonoBehaviour
     [SerializeField] private Transform playerTarget;
 
     [Header("Spawn Settings")]
-    [SerializeField] private float spawnInterval = 0.5f; //0.5 - 2
-    [SerializeField] private float spawnRangeX = 0.5f; //0.5 - 4
-    [SerializeField] private float spawnRangeZ = 0.5f; //0.5 -4 
+    [SerializeField] private float spawnInterval = 0.05f; //0.5 - 2
+    [SerializeField] private float spawnRangeX = 1f; //0.5 - 4
+    [SerializeField] private float spawnRangeZ = 1f; //0.5 -4 
     [SerializeField] private float fixedHeight = -0.1f;
-
+    [SerializeField] private int maxBallsToSpawn = 1000;
+    
     private float timer;
+    private int ballsSpawned;
 
     private void Update()
     {
         if (LevelManager.Instance != null && LevelManager.Instance.GameOver)
+            return;
+
+        timer += Time.deltaTime;
+
+        if (ballsSpawned >= maxBallsToSpawn)
             return;
 
         timer += Time.deltaTime;
@@ -44,5 +51,7 @@ public class BallGenerator : MonoBehaviour
 
         BallObject spawnedBall = Instantiate(randomEntry.prefab, spawnPosition, Quaternion.identity);
         spawnedBall.Initialize(randomEntry.data, playerTarget);
+
+        ballsSpawned++;
     }
 }
