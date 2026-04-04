@@ -71,6 +71,7 @@
     <Compile Include="Assets\InventoryManager.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\XRPokeFollowAffordanceFill.cs" />
     <Compile Include="Assets\SaveLoadInput.cs" />
+    <Compile Include="Assets\RightHandCollector.cs" />
     <Compile Include="Assets\InventoryItem.cs" />
     <Compile Include="Assets\BallObject.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\BezierCurve.cs" />

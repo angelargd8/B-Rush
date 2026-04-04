@@ -6,10 +6,10 @@ public class BallGenerator : MonoBehaviour
     [SerializeField] private Transform playerTarget;
 
     [Header("Spawn Settings")]
-    [SerializeField] private float spawnInterval = 2f;
-    [SerializeField] private float spawnRangeX = 4f;
-    [SerializeField] private float spawnRangeZ = 4f;
-    [SerializeField] private float fixedHeight = 1.5f;
+    [SerializeField] private float spawnInterval = 0.5f; //0.5 - 2
+    [SerializeField] private float spawnRangeX = 0.5f; //0.5 - 4
+    [SerializeField] private float spawnRangeZ = 0.5f; //0.5 -4 
+    [SerializeField] private float fixedHeight = -0.1f;
 
     private float timer;
 
