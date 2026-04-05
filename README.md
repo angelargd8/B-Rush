@@ -3,11 +3,12 @@
 
 ---
 
-**Enlace del vídeo:**
+**Enlace del vídeo:** 
+https://youtu.be/Xg_iSiYMsZo
 
 
 ## Objetivo
-- tomar la mayor cantidad de pelotas evitando tocar la spike ball
+- tomar la mayor cantidad de pelotas evitando tocar la spike ball con el control derecho
 
 
 
