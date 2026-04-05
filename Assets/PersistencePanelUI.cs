@@ -32,9 +32,9 @@ public class PersistencePanelUI : MonoBehaviour
         if (PersistenceManager.Instance == null)
             return;
 
-        PersistenceManager.Instance.DeleteSaveFile();
+        PersistenceManager.Instance.DeleteSaveAndResetGame();
 
         if (statusText != null)
-            statusText.text = "Status: Save deleted";
+            statusText.text = "Status: Save deleted and game reset";
     }
 }

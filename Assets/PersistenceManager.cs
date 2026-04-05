@@ -7,9 +7,10 @@ public class PersistenceManager : MonoBehaviour
 
     [SerializeField] private BallDatabase ballDatabase;
     [SerializeField] private Transform playerTransform;
+    [SerializeField] private Transform playerStartPoint;
 
     private string savePath;
-    
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -64,30 +65,16 @@ public class PersistenceManager : MonoBehaviour
 
     public void LoadGame()
     {
-        if (InventoryManager.Instance == null)
+        if (InventoryManager.Instance == null || LevelManager.Instance == null || ballDatabase == null)
         {
-            Debug.LogError("InventoryManager.Instance es null.");
-            return;
-        }
-
-        if (LevelManager.Instance == null)
-        {
-            Debug.LogError("LevelManager.Instance es null.");
-            return;
-        }
-
-        if (ballDatabase == null)
-        {
-            Debug.LogError("ballDatabase no está asignado en PersistenceManager.");
+            Debug.LogError("Faltan referencias para cargar la partida.");
             return;
         }
 
         if (!File.Exists(savePath))
         {
             Debug.LogWarning("No existe archivo de guardado. Se iniciará una partida nueva.");
-
-            InventoryManager.Instance.ClearInventory();
-            LevelManager.Instance.ResetGameState();
+            ResetGameData();
             return;
         }
 
@@ -102,7 +89,6 @@ public class PersistenceManager : MonoBehaviour
 
         if (saveData.inventory == null)
         {
-            Debug.LogWarning("El inventario cargado venía null. Se inicializará vacío.");
             saveData.inventory = new System.Collections.Generic.List<InventoryItemSaveData>();
         }
 
@@ -110,8 +96,7 @@ public class PersistenceManager : MonoBehaviour
 
         foreach (InventoryItemSaveData itemSave in saveData.inventory)
         {
-            if (itemSave == null)
-                continue;
+            if (itemSave == null) continue;
 
             BallPickupData ballData = ballDatabase.GetByID(itemSave.pickupID);
 
@@ -142,8 +127,6 @@ public class PersistenceManager : MonoBehaviour
         }
 
         Debug.Log("Juego cargado correctamente.");
-        Debug.Log("Vidas cargadas: " + saveData.currentLives);
-        Debug.Log("Último guardado: " + saveData.lastSaveTime);
     }
 
     public void DeleteSaveFile()
@@ -152,6 +135,32 @@ public class PersistenceManager : MonoBehaviour
         {
             File.Delete(savePath);
             Debug.Log("Archivo de guardado eliminado.");
+        }
+    }
+
+    public void DeleteSaveAndResetGame()
+    {
+        DeleteSaveFile();
+        ResetGameData();
+        Debug.Log("Partida reiniciada.");
+    }
+
+    private void ResetGameData()
+    {
+        if (InventoryManager.Instance != null)
+        {
+            InventoryManager.Instance.ClearInventory();
+        }
+
+        if (LevelManager.Instance != null)
+        {
+            LevelManager.Instance.ResetGameState();
+        }
+
+        if (playerTransform != null && playerStartPoint != null)
+        {
+            playerTransform.position = playerStartPoint.position;
+            playerTransform.rotation = playerStartPoint.rotation;
         }
     }
 }
