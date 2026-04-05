@@ -1,5 +1,5 @@
 # B-Rush: 
-## Save & Load System 
+## Lab 5: Save & Load System 
 
 ---
 
@@ -10,7 +10,9 @@
 - tomar la mayor cantidad de pelotas evitando tocar la spike ball
 
 
-Permitir al jugador:
+
+
+Permite al jugador:
 
 - Guardar el progreso actual  
 - Cargar una partida previamente guardada  
