@@ -9,7 +9,7 @@ public class PersistenceManager : MonoBehaviour
     [SerializeField] private Transform playerTransform;
 
     private string savePath;
-
+    
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -64,6 +64,24 @@ public class PersistenceManager : MonoBehaviour
 
     public void LoadGame()
     {
+        if (InventoryManager.Instance == null)
+        {
+            Debug.LogError("InventoryManager.Instance es null.");
+            return;
+        }
+
+        if (LevelManager.Instance == null)
+        {
+            Debug.LogError("LevelManager.Instance es null.");
+            return;
+        }
+
+        if (ballDatabase == null)
+        {
+            Debug.LogError("ballDatabase no está asignado en PersistenceManager.");
+            return;
+        }
+
         if (!File.Exists(savePath))
         {
             Debug.LogWarning("No existe archivo de guardado. Se iniciará una partida nueva.");
@@ -76,10 +94,25 @@ public class PersistenceManager : MonoBehaviour
         string json = File.ReadAllText(savePath);
         GameSaveData saveData = JsonUtility.FromJson<GameSaveData>(json);
 
+        if (saveData == null)
+        {
+            Debug.LogError("No se pudo leer el archivo de guardado.");
+            return;
+        }
+
+        if (saveData.inventory == null)
+        {
+            Debug.LogWarning("El inventario cargado venía null. Se inicializará vacío.");
+            saveData.inventory = new System.Collections.Generic.List<InventoryItemSaveData>();
+        }
+
         InventoryManager.Instance.ClearInventory();
 
         foreach (InventoryItemSaveData itemSave in saveData.inventory)
         {
+            if (itemSave == null)
+                continue;
+
             BallPickupData ballData = ballDatabase.GetByID(itemSave.pickupID);
 
             if (ballData == null)
@@ -88,10 +121,7 @@ public class PersistenceManager : MonoBehaviour
                 continue;
             }
 
-            for (int i = 0; i < itemSave.amount; i++)
-            {
-                InventoryManager.Instance.AddItem(ballData);
-            }
+            InventoryManager.Instance.AddRestoredItem(ballData, itemSave.amount);
         }
 
         InventoryManager.Instance.RestoreStats(

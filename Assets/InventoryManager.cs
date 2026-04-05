@@ -67,4 +67,21 @@ public class InventoryManager : MonoBehaviour
         totalBallsCaught = ballsCaught;
         totalSpikeBallsCaught = SpikeBallsCaught;
     }
+
+    public void AddRestoredItem(BallPickupData data, int amount)
+    {
+        if (data == null || amount <= 0) return;
+
+        InventoryItem existingItem = items.Find(item => item.data == data);
+
+        if (existingItem != null)
+        {
+            existingItem.amount += amount;
+        }
+        else
+        {
+            items.Add(new InventoryItem(data, amount));
+        }
+    }
+
 }

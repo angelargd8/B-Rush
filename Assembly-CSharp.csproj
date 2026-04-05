@@ -76,6 +76,7 @@
     <Compile Include="Assets\InventoryItem.cs" />
     <Compile Include="Assets\BallObject.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\BezierCurve.cs" />
+    <Compile Include="Assets\PersistencePanelUI.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\LaunchProjectile.cs" />
     <Compile Include="Assets\GameSaveData.cs" />
     <Compile Include="Assets\PickupType.cs" />

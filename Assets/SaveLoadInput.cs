@@ -4,6 +4,9 @@ public class SaveLoadInput : MonoBehaviour
 {
     private void Update()
     {
+        if (PersistenceManager.Instance == null)
+            return;
+
         if (Input.GetKeyDown(KeyCode.K))
         {
             PersistenceManager.Instance.SaveGame();
