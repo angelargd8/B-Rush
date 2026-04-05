@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int maxLives = 3;
 
     public int CurrentLives { get; private set; }
+    public int CurrentScore { get; private set; }
     public bool GameOver { get; private set; }
 
     private void Awake()
@@ -20,12 +21,14 @@ public class LevelManager : MonoBehaviour
 
         Instance = this;
         CurrentLives = maxLives;
+        CurrentScore = 0;
         GameOver = false;
     }
 
     public void ResetGameState()
     {
         CurrentLives = maxLives;
+        CurrentScore = 0;
         GameOver = false;
     }
 
@@ -42,12 +45,27 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void AddScore(int amount)
+    {
+        if (GameOver) return;
+
+        CurrentScore += amount;
+
+        if (CurrentScore < 0)
+            CurrentScore = 0;
+
+        Debug.Log("Score actual: " + CurrentScore);
+    }
+
+    public void SetScore(int score)
+    {
+        CurrentScore = Mathf.Max(0, score);
+    }
+
     private void TriggerGameOver()
     {
         GameOver = true;
         Debug.Log("Game Over. Perdiste todas las vidas.");
-
-        InventoryManager.Instance.ClearInventory();
 
         if (PersistenceManager.Instance != null)
         {
